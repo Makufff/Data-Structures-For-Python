@@ -25,7 +25,7 @@ class BST :
             if new_node.value < current_node.value :
                 if current_node.left == None:
                     current_node.left = new_node
-                    return
+                    returnx
                 current_node = current_node.left
             else :
                 if current_node.right == None:
@@ -55,21 +55,21 @@ class BST :
         # if the tree is not empty
         self.insert_recursive_helper(self.root, new_node)
 
-    # Pre-Order (NLR) (Interative)
-    def pre_order_interative(self):
-        if self.root == None:
-            print("Tree is empty")
-            return
+    # # Pre-Order (NLR) (Interative)
+    # def pre_order_interative(self):
+    #     if self.root == None:
+    #         print("Tree is empty")
+    #         return
         
-        stack = []
-        stack.append(self.root)
-        while stack:
-            current_node = stack.pop()
-            print(current_node.value)
-            if current_node.right:
-                stack.append(current_node.right)
-            if current_node.left:
-                stack.append(current_node.left)
+    #     stack = []
+    #     stack.append(self.root)
+    #     while stack:
+    #         current_node = stack.pop()
+    #         print(current_node.value)
+    #         if current_node.right:
+    #             stack.append(current_node.right)
+    #         if current_node.left:
+    #             stack.append(current_node.left)
     
     # Pre-Order (NLR) (Recursive)
     def pre_order_recursive_helper(self, current_node):
@@ -88,21 +88,21 @@ class BST :
         self.pre_order_recursive_helper(self.root)
 
     
-    # Post-Order (LRN) (Interative)
-    def post_order_interative(self):
-        if self.root == None:
-            print("Tree is empty")
-            return
+    # # Post-Order (LRN) (Interative)
+    # def post_order_interative(self):
+    #     if self.root == None:
+    #         print("Tree is empty")
+    #         return
         
-        stack = []
-        stack.append(self.root)
-        while stack:
-            current_node = stack.pop()
-            print(current_node.value)
-            if current_node.left:
-                stack.append(current_node.left)
-            if current_node.right:
-                stack.append(current_node.right)
+    #     stack = []
+    #     stack.append(self.root)
+    #     while stack:
+    #         current_node = stack.pop()
+    #         print(current_node.value)
+    #         if current_node.left:
+    #             stack.append(current_node.left)
+    #         if current_node.right:
+    #             stack.append(current_node.right)
     
     # Post-Order (LRN) (Recursive)
     def post_order_recursive_helper(self, current_node):
@@ -121,20 +121,20 @@ class BST :
         self.post_order_recursive_helper(self.root)
 
     # In-Order (LNR) (Interative)
-    def in_order_interative(self):
-        if self.root == None:
-            print("Tree is empty")
-            return
+    # def in_order_interative(self):
+    #     if self.root == None:
+    #         print("Tree is empty")
+    #         return
         
-        stack = []
-        current_node = self.root
-        while stack or current_node:
-            while current_node:
-                stack.append(current_node)
-                current_node = current_node.left
-            current_node = stack.pop()
-            print(current_node.value)
-            current_node = current_node.right
+    #     stack = []
+    #     current_node = self.root
+    #     while stack or current_node:
+    #         while current_node:
+    #             stack.append(current_node)
+    #             current_node = current_node.left
+    #         current_node = stack.pop()
+    #         print(current_node.value)
+    #         current_node = current_node.right
     
     # In-Order (LNR) (Recursive)
     def in_order_recursive_helper(self, current_node):
@@ -244,7 +244,7 @@ class BST :
     # Delete Node with 1 Child
     # Delete Node with 2 Children
     # Delete Node (Interative)
-    def delete_node_interative(self, value):
+    def delete_node_interative_findmax(self, value):
         if self.root == None:
             print("Tree is empty")
             return
@@ -291,5 +291,53 @@ class BST :
                 current_node = current_node.left
             parent_node.left = None
 
+    # Delete Node function
+    # Delete Leaf Node
+    # Delete Node with 1 Child
+    # Delete Node with 2 Children (left base is find max)
+    def delete_node_interativ_findmax(self, value):
+        if self.root == None:
+            print("Tree is empty")
+            return
+        
+        # Find the node to be deleted
+        current_node = self.root
+        parent_node = None
+        while current_node and current_node.value != value:
+            if value < current_node.value:
+                parent_node = current_node
+                current_node = current_node.left
+            else:
+                parent_node = current_node
+                current_node = current_node.right
+        
+        if current_node == None:
+            print("Node not found")
+            return
 
-            
+        # if Delete Leaf Node
+        if current_node.left == None and current_node.right == None :
+            parent_node.left = None
+        
+        # if Delete Node with 1 Child
+        elif current_node.left == None or current_node.right == None:
+            if current_node.left == None:
+                current_node = current_node.right
+            else:
+                current_node = current_node.left
+        
+        # if Delete Node with 2 Children (left base is find max)
+        else:
+            # find the max node in the left subtree
+            max_node = current_node.left
+            while max_node.right == None:
+                max_node = max_node.right
+            current_node.value = max_node.value
+
+            # delete the max node
+            parent_node = current_node
+            current_node = current_node.left
+            while current_node.right:
+                parent_node = current_node
+                current_node = current_node.right
+            parent_node.right = None
